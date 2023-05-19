@@ -13,7 +13,6 @@ arrowBtn.addEventListener("click",()=>{
     location.hash = "#home";
 });
 
-
 function navigator() {
     if (location.hash.startsWith("#trends")) { //propiedad de los strings que indica si empieza con el argumento
         trendsPage();
@@ -27,8 +26,6 @@ function navigator() {
         categoriesPage();
     }
     else {
-        trendingMoviesPreviewList.innerHTML = "";
-        categoriesPreviewList.innerHTML = "";
         homePage();
     }
 }
@@ -49,12 +46,16 @@ function homePage() {
     genericSection.classList.add("inactive");
     movieDetailSection.classList.add("inactive");
 
-    getTrendingMovies(); //solo cargará cuando se encuentre en este hash
-    getCategoriesMovies();
+    const childrenCategoriesPreview = Array.from(categoriesPreviewList.children);
+    if(!childrenCategoriesPreview.length){ //para evitar volver a llamar a la API se evalua si existen nodos hijos en la seccion de categorias, en este caso si no tiene es porque es la primera carga y si llamará a la API
+        getTrendingMovies(); //solo cargará cuando se encuentre en este hash
+        getCategoriesMovies();
+    }
 }
 
 function categoriesPage() {
     console.log("Categories!!");
+    window.scroll(0,0); //para que al iniciar en una vista diferente, esta se posicione en la esquina superior izquierda
 
     headerSection.classList.remove("header-container--long");
     headerSection.style.background = "";
@@ -68,6 +69,14 @@ function categoriesPage() {
     categoriesPreviewSection.classList.add("inactive");
     genericSection.classList.remove("inactive");
     movieDetailSection.classList.add("inactive");
+
+    //Obtener el id de la categoría //Ejemplo: http://127.0.0.1:5500/index.html#category=12-Adventure
+    const split1 = location.hash.split("=");
+    console.log(location.hash.split("=")); // ['#category', '12-Adventure']
+    const split2 = split1[1].split("-");
+    console.log(split1[1].split("-")); // ['12', 'Adventure']
+
+    getMoviesByCategory(split2[0]);
 }
 
 function movieDetailsPage() {
