@@ -125,7 +125,7 @@ footer {
 }
 
 .header-container{
-    background-image: url("../sources/banner-header.png");
+    background-image: url("./sources/banner-header.png");
     padding: 16px;
     background-size: 100% 500px;
     background-repeat: no-repeat;
