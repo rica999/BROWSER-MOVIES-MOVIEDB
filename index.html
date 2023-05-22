@@ -14,17 +14,23 @@
 </head>
 <body>
     <header id="header" class="header-container">
-        <span class="header-arrow inactive">&lt;</span>
+        <div class="header-icons">
+            <span class="header-arrow inactive">&lt;</span>
+            <img src="./sources/home.png" class="header-home inactive" alt="home-icon">
+        </div>
         <div class="header-name">
             <img src="./sources/camara.png" alt="camera-img">
             <h1 class="header-title">RicaMovies</h1>
             <img src="./sources/camara.png" alt="camera-img">
         </div>
-        <h2 class="header-title header-title--categoryView inactive">Acción</h2>
         <form id="searchForm" class="header-searchForm">
-            <input type="text" placeholder="Vengadores" />
+            <input type="text" placeholder="Inserte un nombre" />
             <button id="searchFormBtn">🔍</button>
         </form>
+        <h2 class="header-title header-title--categoryView inactive"></h2>
+        <div class="header-container-banner-title">
+            <h2 class="header-title--banner" id="headerTitleBanner">¡Disfruta de las mejores películas!</h2>
+        </div>
     </header>
     <section id="trendingPreview" class="trendingPreview-container">
         <div class="trendingPreview-header">
@@ -32,46 +38,28 @@
             <button class="trendingPreview-btn">Ver más</button>
         </div>
         <article class="trendingPreview-movieList">
-            <!--<div class="movie-container">
-                <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img"
-                    alt="Nombre de la película" />
-            </div>-->
+
         </article>
     </section>
     <section id="categoriesPreview" class="categoriesPreview-container">
         <h2 class="categoriesPreview-title">Categorías</h2>
         <article class="categoriesPreview-list">
-            <!--<div class="category-container">
-                <h3 id="id28" class="category-title">Romance</h3>
-            </div>-->
+
         </article>
     </section>
     <section id="genericList" class="genericList-container inactive">
-        <!--<div class="movie-container">
-            <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img"
-                alt="Nombre de la película" />
-        </div>-->
+
     </section>
     <section id="movieDetail" class="movieDetail-container inactive">
         <div class="movieDetail-img">
-            <img src="https://pics.filmaffinity.com/Deadpool-777527803-large.jpg" alt="movie-img">
+
         </div>
-        <div class="movieDetail-description">
-            <h2 class="movieDetail-title">Deadpool</h2>
-            <span class="movieDetail-score">7.6</span>
-            <p class="movieDetail-description">
-                Wisecracking mercenary Deadpool battles the evil and powerful Cable and other bad guys to save a boy's life.
-            </p>
+        <div class="movieDetail-container-description">
+            <h2 class="movieDetail-title"></h2>
+            <span class="movieDetail-score"></span>
+            <p class="movieDetail-description"></p>
             <article class="categories-list">
-                <div class="category-container">
-                    <h3 id="id28" class="category-title">Romance</h3>
-                </div>
-                <div class="category-container">
-                    <h3 id="id16" class="category-title">Drama</h3>
-                </div>
-                <div class="category-container">
-                    <h3 id="id14" class="category-title">Acción</h3>
-                </div>
+
             </article>
         </div>
     </section>
@@ -79,18 +67,7 @@
         <article class="relatedMovies-container">
             <h2 class="relatedMovies-title">Películas similares</h2>
             <div class="relatedMovies-scrollContainer">
-                <div class="movie-container">
-                    <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img"
-                        alt="Nombre de la película" />
-                </div>
-                <div class="movie-container">
-                    <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img"
-                        alt="Nombre de la película" />
-                </div>
-                <div class="movie-container">
-                    <img src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg" class="movie-img"
-                        alt="Nombre de la película" />
-                </div>
+
             </div>
         </article>
     </section>
@@ -126,5 +103,4 @@
     <script src="./src/main.js"></script>
     <script src="./src/navigation.js"></script>
 </body>
-
 </html>
