@@ -114,9 +114,9 @@ function createCategoriesByMovie(arrayCategories,container) {
 async function getMovieById(id) {
     const {data:movie} = await api("movie/"+id); //renombar a data por movie
 
-    movieDetailTitle.textContent = movie.title;
-    movieDetailDescription.textContent = movie.overview;
-    movieDetailScore.textContent = movie.vote_average.toFixed(2);
+    movieDetailTitle.innerHTML = movie.title;
+    movieDetailDescription.innerHTML = movie.overview;
+    movieDetailScore.innerHTML = "⭐"+movie.vote_average.toFixed(2);
     movieDetailImg.innerHTML="";
     const imgMovie = document.createElement("img");
     imgMovie.setAttribute("src","https://image.tmdb.org/t/p/w500/" + movie.poster_path);
