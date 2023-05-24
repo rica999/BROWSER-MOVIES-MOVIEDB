@@ -305,6 +305,14 @@ footer {
 .genericList-container .movie-container {
     display: inline-block;
 }
+.genericList-container .movie-container img{
+    width: 250px;
+    min-width: 250px;
+    max-width: 250px;
+    height: 380px;
+    min-height: 380px;
+    max-height: 380px;
+}
 
 .genericList-container .movie-container--loading{
     background-color: gray;

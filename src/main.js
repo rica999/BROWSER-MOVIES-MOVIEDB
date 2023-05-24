@@ -19,11 +19,17 @@ function createListMovies(arrayMovies,container){
         const movieImg = document.createElement("img");
         movieImg.classList.add("movie-img");
         movieImg.setAttribute("alt",movie.overview);
-        movieImg.setAttribute("src","https://image.tmdb.org/t/p/w300/" + movie.poster_path);
         movieImg.addEventListener("click",()=>{//por cada película se redirigirá a la vista de movie
             location.hash="#movie="+movie.id;
         });
-        movieContainer.appendChild(movieImg);
+        if (!movie.poster_path){
+            movieContainer.style.display = "none";
+        }
+        else{
+            movieImg.setAttribute("src","https://image.tmdb.org/t/p/w300/" + movie.poster_path);
+            movieImg.setAttribute('loading', 'lazy');
+            movieContainer.appendChild(movieImg);
+        }
         container.appendChild(movieContainer);
     });
 }
@@ -99,6 +105,7 @@ function createCategoriesByMovie(arrayCategories,container) {
         categoryContainer.classList.add("category-container");
         const categoryImg = document.createElement("img");
         categoryImg.setAttribute("src","./sources/" + movie.name + ".png");
+        categoryImg.setAttribute('loading', 'lazy');
         const nameCategory = document.createElement("h3");
         nameCategory.classList.add("category-title");
         nameCategory.textContent=movie.name;
@@ -120,6 +127,7 @@ async function getMovieById(id) {
     movieDetailImg.innerHTML="";
     const imgMovie = document.createElement("img");
     imgMovie.setAttribute("src","https://image.tmdb.org/t/p/w500/" + movie.poster_path);
+    imgMovie.setAttribute('loading', 'lazy');
     movieDetailImg.appendChild(imgMovie);
     headerSection.style.cssText = `background-image: url(https://image.tmdb.org/t/p/w500/${movie.backdrop_path}); height: 500px;`;
     createCategoriesByMovie(movie.genres,movieDetailCategoriesList);
