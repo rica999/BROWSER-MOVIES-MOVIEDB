@@ -10,8 +10,10 @@ const api = axios.create({
 });
 
 //Creación de listas de películas
-function createListMovies(arrayMovies,container){
-    container.innerHTML = "";
+function createListMovies(arrayMovies,container,{clean=true}={}){
+    if (clean) {
+        container.innerHTML = "";
+    }
     //por cada película obtenido se imprimirá su poster
     arrayMovies.forEach(movie => {
         const movieContainer = document.createElement("div");
@@ -61,6 +63,10 @@ async function getCategoriesMovies() {
 }
 
 //Obtener lista de películas por categoría
+
+const buttonLoadMoreMovies = document.createElement("button");
+buttonLoadMoreMovies.textContent="Cargar más";
+
 async function getMoviesByCategory(id) {
 
     const {data} = await api("discover/movie",{
@@ -71,6 +77,29 @@ async function getMoviesByCategory(id) {
 
     const moviesByCategory = data.results;
     createListMovies(moviesByCategory,genericSection);
+
+    //Paginación por medio de un botón
+    let page = 1;
+    genericSection.appendChild(buttonLoadMoreMovies);
+    buttonLoadMoreMovies.addEventListener("click",()=>{
+        page=page+1;
+        getMoreMovies(id,page);
+        genericSection.removeChild(buttonLoadMoreMovies);
+    });
+}
+
+//Obtener más películas
+async function getMoreMovies(id,page){
+    const {data} = await api("discover/movie",{
+        params:{
+            with_genres:id,
+            page
+        }
+    });
+
+    const moviesByCategory = data.results;
+    createListMovies(moviesByCategory,genericSection,{clean:false});
+    genericSection.appendChild(buttonLoadMoreMovies);
 }
 
 //Buscar películas
