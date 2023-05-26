@@ -1,5 +1,8 @@
+let infinityScroll;
+
 window.addEventListener('DOMContentLoaded', navigator, false); //false es por el modo bubble (captura el evento desde el interior de la función hacia el exterior)
 window.addEventListener('hashchange', navigator, false);
+window.addEventListener("scroll",infinityScroll, false);
 
 searchFormBtn.addEventListener("click",(e)=>{
     const inputValueTrim = searchFormInput.value.replaceAll(" ",""); //elimnar espacios
@@ -16,6 +19,12 @@ arrowBtn.addEventListener("click",()=>{
 });
 
 function navigator() {
+
+    if(infinityScroll){ //quitar algún evento asociado a infinityScroll
+        window.removeEventListener("scroll",infinityScroll,{passive:false});
+        infinityScroll = undefined;
+    }
+
     if (location.hash.startsWith("#trends")) { //propiedad de los strings que indica si empieza con el argumento
         trendsPage();
     } else if (location.hash.startsWith("#search=")) {
@@ -29,6 +38,10 @@ function navigator() {
     }
     else {
         homePage();
+    }
+
+    if(infinityScroll){ //agregar algún evento asociado a infinityScroll
+        window.addEventListener("scroll",infinityScroll,{passive:false});
     }
 }
 
@@ -57,6 +70,9 @@ function homePage() {
     }
 }
 
+let split1;
+let split2;
+
 function categoriesPage() {
     console.log("Categories!!");
     window.scrollTo({top:0});//para que al iniciar en una vista diferente, esta se posicione en la esquina superior izquierda
@@ -77,14 +93,19 @@ function categoriesPage() {
     movieDetailSection.classList.add("inactive");
 
     //Obtener el id de la categoría //Ejemplo: http://127.0.0.1:5500/index.html#category=12-Adventure
-    const split1 = location.hash.split("=");
+    split1 = location.hash.split("=");
     console.log(location.hash.split("=")); // ['#category', '12-Adventure']
-    const split2 = split1[1].split("-");
+    split2 = split1[1].split("-");
     console.log(split1[1].split("-")); // ['12', 'Adventure']
 
     headerCategoryTitle.innerHTML = split2[1].replaceAll("%20"," ");
     getMoviesByCategory(split2[0]);
+    infinityScroll=getMoreMovies;
 }
+
+/* window.addEventListener("scroll",()=>{ //acordarse que se pueden agregar más de un evento a un elemento
+    getMoreMovies(split2[0]);
+}) */
 
 function movieDetailsPage() {
     console.log("Movie!!");
@@ -110,6 +131,8 @@ function movieDetailsPage() {
     getMovieById(idMovie);
 }
 
+let valueInputSearch;
+
 function searchPage() {
     console.log("Search!!");
     window.scrollTo({top:0});
@@ -132,8 +155,10 @@ function searchPage() {
 
     //Obtener el value del input de búsqueda //Ejemplo: http://127.0.0.1:5500/index.html#saearch=Pokemon
     const [_,valueInput] = location.hash.split("=");
-    searchMovies(valueInput);
+    valueInputSearch = valueInput;
+    searchMovies(valueInputSearch);
     headerCategoryTitle.innerHTML = "Resultados para: "+valueInput;
+    infinityScroll=searchMoreMovies;
 }
 
 function trendsPage() {
@@ -156,4 +181,5 @@ function trendsPage() {
     movieDetailSection.classList.add("inactive");
 
     getTrendingMovies();
+    infinityScroll=getMoreTrendingMovies;
 }

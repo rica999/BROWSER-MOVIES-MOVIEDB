@@ -64,14 +64,13 @@ async function getCategoriesMovies() {
 
 //Obtener lista de películas por categoría
 
-const buttonLoadMoreMovies = document.createElement("button");
-buttonLoadMoreMovies.textContent="Cargar más";
+/*const buttonLoadMoreMovies = document.createElement("button");
+buttonLoadMoreMovies.textContent="Cargar más";*/
 
-async function getMoviesByCategory(id) {
-
+async function getMoviesByCategory() {
     const {data} = await api("discover/movie",{
         params:{
-            with_genres:id
+            with_genres:split2[0]
         }
     });
 
@@ -79,40 +78,69 @@ async function getMoviesByCategory(id) {
     createListMovies(moviesByCategory,genericSection);
 
     //Paginación por medio de un botón
-    let page = 1;
-    genericSection.appendChild(buttonLoadMoreMovies);
+    /*genericSection.appendChild(buttonLoadMoreMovies);
     buttonLoadMoreMovies.addEventListener("click",()=>{
         page=page+1;
         getMoreMovies(id,page);
         genericSection.removeChild(buttonLoadMoreMovies);
-    });
+    });*/
+
 }
 
+let page = 2; //a partir de la página 2
+
 //Obtener más películas
-async function getMoreMovies(id,page){
+async function getMoreMovies(){
     const {data} = await api("discover/movie",{
         params:{
-            with_genres:id,
+            with_genres:split2[0],
             page
         }
     });
 
-    const moviesByCategory = data.results;
-    createListMovies(moviesByCategory,genericSection,{clean:false});
-    genericSection.appendChild(buttonLoadMoreMovies);
+    //Scroll infinito
+    const {scrollTop,clientHeight,scrollHeight} = document.documentElement;
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight-15);
+    if (scrollIsBottom) {
+        page=page+1;
+        const moviesByCategory = data.results;
+        createListMovies(moviesByCategory,genericSection,{clean:false});
+    }
+    //genericSection.appendChild(buttonLoadMoreMovies);
 }
 
 //Buscar películas
-async function searchMovies(value) {
+async function searchMovies() {
 
     const {data} = await api("search/movie",{
         params:{
-            query:value
+            query:valueInputSearch
         }
     });
 
     const moviesBySearch = data.results;
     createListMovies(moviesBySearch,genericSection);
+}
+
+//Obtener más películas de búsqueda
+
+async function searchMoreMovies() {
+
+    const {data} = await api("search/movie",{
+        params:{
+            query:valueInputSearch,
+            page
+        }
+    });
+
+    //Scroll infinito
+    const {scrollTop,clientHeight,scrollHeight} = document.documentElement;
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight-15);
+    if (scrollIsBottom) {
+        page=page+1;
+        const moviesByCategory = data.results;
+        createListMovies(moviesByCategory,genericSection,{clean:false});
+    }
 }
 
 //Mostrar las tendencias en la vista de tendencias
@@ -123,6 +151,24 @@ async function getTrendingMovies() {
 
     headerCategoryTitle.innerHTML = "Tendencias";
     createListMovies(moviesTrending,genericSection);
+}
+
+//Obtener más tendencias
+async function getMoreTrendingMovies(){
+    const {data} = await api("trending/movie/day",{
+        params:{
+            page
+        }
+    });
+
+    //Scroll infinito
+    const {scrollTop,clientHeight,scrollHeight} = document.documentElement;
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight-15);
+    if (scrollIsBottom) {
+        page=page+1;
+        const moviesByCategory = data.results;
+        createListMovies(moviesByCategory,genericSection,{clean:false});
+    }
 }
 
 //Crear la lista de categorías según la película seleccionado
