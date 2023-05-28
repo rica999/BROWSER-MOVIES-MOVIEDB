@@ -29,3 +29,6 @@ const movieDetailTitle = document.querySelector('.movieDetail-title');
 const movieDetailDescription = document.querySelector('.movieDetail-description');
 const movieDetailScore = document.querySelector('.movieDetail-score');
 const movieDetailImg = document.querySelector('.movieDetail-img');
+
+const favoriteMoviesSection = document.querySelector('#favouriteMovies');
+const favoriteMoviesContainer = document.querySelector('.favouriteMovies-scrollContainer');

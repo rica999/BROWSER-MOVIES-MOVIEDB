@@ -9,6 +9,32 @@ const api = axios.create({
     }
 });
 
+//Verificar si existe una película como favorito
+function isMovieFavorite() {
+    const item = JSON.parse(localStorage.getItem("liked_movies"));
+    let movie;
+    if (item) {
+        movie = item;
+    }
+    else{
+        movie = {};
+    }
+    return movie;
+}
+
+//Insertar películas a favoritos
+function likedMovies(movie) {
+    const listMoviesFavorite = isMovieFavorite();
+    if(!listMoviesFavorite[movie.id]){
+        listMoviesFavorite[movie.id] = movie;
+    }
+    else{
+        listMoviesFavorite[movie.id]=undefined;
+    }
+    localStorage.setItem("liked_movies",JSON.stringify(listMoviesFavorite));
+}
+
+
 //Creación de listas de películas
 function createListMovies(arrayMovies,container,{clean=true}={}){
     if (clean) {
@@ -24,13 +50,22 @@ function createListMovies(arrayMovies,container,{clean=true}={}){
         movieImg.addEventListener("click",()=>{//por cada película se redirigirá a la vista de movie
             location.hash="#movie="+movie.id;
         });
+        const favoriteButton = document.createElement("button");
+        favoriteButton.classList.add("btn-favorite");
+        isMovieFavorite()[movie.id] && favoriteButton.classList.toggle('btn-favorite-liked');
+        favoriteButton.addEventListener("click",()=>{
+            favoriteButton.classList.toggle("btn-favorite-liked"); //quitara o agregará esa clase cuando se seleccione el boton de favorito
+            likedMovies(movie);
+            getFavoriteMovies();
+        })
+
         if (!movie.poster_path){
             movieContainer.style.display = "none";
         }
         else{
             movieImg.setAttribute("src","https://image.tmdb.org/t/p/w300/" + movie.poster_path);
             movieImg.setAttribute('loading', 'lazy');
-            movieContainer.appendChild(movieImg);
+            movieContainer.append(movieImg,favoriteButton);
         }
         container.appendChild(movieContainer);
     });
@@ -77,6 +112,7 @@ async function getMoviesByCategory() {
     const moviesByCategory = data.results;
     createListMovies(moviesByCategory,genericSection);
 
+    maxPages = data.total_pages;
     //Paginación por medio de un botón
     /*genericSection.appendChild(buttonLoadMoreMovies);
     buttonLoadMoreMovies.addEventListener("click",()=>{
@@ -98,10 +134,11 @@ async function getMoreMovies(){
         }
     });
 
+    const pageIsNotMax = page <= maxPages; //para que no se esceda en páginas el usuario
     //Scroll infinito
     const {scrollTop,clientHeight,scrollHeight} = document.documentElement;
     const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight-15);
-    if (scrollIsBottom) {
+    if (scrollIsBottom && pageIsNotMax) {
         page=page+1;
         const moviesByCategory = data.results;
         createListMovies(moviesByCategory,genericSection,{clean:false});
@@ -120,6 +157,8 @@ async function searchMovies() {
 
     const moviesBySearch = data.results;
     createListMovies(moviesBySearch,genericSection);
+
+    maxPages = data.total_pages;
 }
 
 //Obtener más películas de búsqueda
@@ -133,10 +172,12 @@ async function searchMoreMovies() {
         }
     });
 
+    const pageIsNotMax = page <= maxPages; //para que no se esceda en páginas el usuario
+
     //Scroll infinito
     const {scrollTop,clientHeight,scrollHeight} = document.documentElement;
     const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight-15);
-    if (scrollIsBottom) {
+    if (scrollIsBottom && pageIsNotMax) {
         page=page+1;
         const moviesByCategory = data.results;
         createListMovies(moviesByCategory,genericSection,{clean:false});
@@ -151,6 +192,8 @@ async function getTrendingMovies() {
 
     headerCategoryTitle.innerHTML = "Tendencias";
     createListMovies(moviesTrending,genericSection);
+
+    maxPages = data.total_pages;
 }
 
 //Obtener más tendencias
@@ -161,10 +204,12 @@ async function getMoreTrendingMovies(){
         }
     });
 
+    const pageIsNotMax = page <= maxPages; //para que no se esceda en páginas el usuario
+
     //Scroll infinito
     const {scrollTop,clientHeight,scrollHeight} = document.documentElement;
     const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight-15);
-    if (scrollIsBottom) {
+    if (scrollIsBottom && pageIsNotMax) {
         page=page+1;
         const moviesByCategory = data.results;
         createListMovies(moviesByCategory,genericSection,{clean:false});
@@ -218,3 +263,11 @@ async function createSimilarMovies(id) {
 headerHome.addEventListener("click",()=>{
     location.hash = "home";
 })
+
+//Insertar películas en la lista de favoritos
+function getFavoriteMovies() {
+    const moviesLiked = isMovieFavorite();
+    const arrayMovies = Object.values(moviesLiked);
+
+    createListMovies(arrayMovies,favoriteMoviesContainer);
+}

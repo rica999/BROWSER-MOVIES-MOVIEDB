@@ -1,4 +1,5 @@
 let infinityScroll;
+let maxPages;
 
 window.addEventListener('DOMContentLoaded', navigator, false); //false es por el modo bubble (captura el evento desde el interior de la función hacia el exterior)
 window.addEventListener('hashchange', navigator, false);
@@ -61,12 +62,14 @@ function homePage() {
     relatedMovies.classList.add("inactive");
     trendingPreviewSection.classList.remove("inactive");
     categoriesPreviewSection.classList.remove("inactive");
+    favoriteMoviesSection.classList.remove("inactive");
     genericSection.classList.add("inactive");
     movieDetailSection.classList.add("inactive");
     const childrenCategoriesPreview = Array.from(categoriesPreviewList.children);
     if(!childrenCategoriesPreview.length){ //para evitar volver a llamar a la API se evalua si existen nodos hijos en la seccion de categorias, en este caso si no tiene es porque es la primera carga y si llamará a la API
         getTrendingMoviesPreview(); //solo cargará cuando se encuentre en este hash
         getCategoriesMovies();
+        getFavoriteMovies();
     }
 }
 
@@ -89,6 +92,7 @@ function categoriesPage() {
     relatedMovies.classList.add("inactive");
     trendingPreviewSection.classList.add("inactive");
     categoriesPreviewSection.classList.add("inactive");
+    favoriteMoviesSection.classList.add("inactive");
     genericSection.classList.remove("inactive");
     movieDetailSection.classList.add("inactive");
 
@@ -123,6 +127,7 @@ function movieDetailsPage() {
     relatedMovies.classList.remove("inactive");
     trendingPreviewSection.classList.add("inactive");
     categoriesPreviewSection.classList.add("inactive");
+    favoriteMoviesSection.classList.add("inactive");
     genericSection.classList.add("inactive");
     movieDetailSection.classList.remove("inactive");
 
@@ -150,6 +155,7 @@ function searchPage() {
     relatedMovies.classList.add("inactive");
     trendingPreviewSection.classList.add("inactive");
     categoriesPreviewSection.classList.add("inactive");
+    favoriteMoviesSection.classList.add("inactive");
     genericSection.classList.remove("inactive");
     movieDetailSection.classList.add("inactive");
 
@@ -177,6 +183,7 @@ function trendsPage() {
     relatedMovies.classList.add("inactive");
     trendingPreviewSection.classList.add("inactive");
     categoriesPreviewSection.classList.add("inactive");
+    favoriteMoviesSection.classList.add("inactive");
     genericSection.classList.remove("inactive");
     movieDetailSection.classList.add("inactive");
 

@@ -97,17 +97,40 @@ button {
 .relatedMovies-scrollContainer,
 .trendingPreview-container,
 .categoriesPreview-container,
+.favouriteMovies-container
 footer {
     margin-top: 24px;
 }
 
 .trendingPreview-header,
-.categoriesPreview-title {
+.categoriesPreview-title,.favouriteMovies-title {
     margin-bottom: 24px;
 }
 
 .movie-container {
     cursor: pointer;
+    position: relative;
+}
+
+.btn-favorite{
+    position: absolute;
+    right: 0;
+    border-radius: 50px;
+    background-color: var(--alice-blue);
+    width: 32px;
+    height: 32px;
+    margin: 8px;
+}
+
+.btn-favorite::before{
+    content: "💗";
+}
+
+.btn-favorite-liked{
+    background-color: rgb(228, 76, 76);
+}
+.btn-favorite-liked::before{
+    content: "❤";
 }
 
 .movie-img {
@@ -142,11 +165,11 @@ footer {
 .header-title--banner{
     font-size: 6rem;
     opacity: 0;
-    animation: animacion 2s ease-in-out forwards;
+    animation: loading-skeleton 2s ease-in-out forwards;
     color: var(--celestial-blue);
     text-align: center;
 }
-@keyframes animacion {
+@keyframes loading-skeleton {
     from {
         opacity: 0;
     }
@@ -217,7 +240,7 @@ footer {
     width: 72px;
 }
 
-.trendingPreview-movieList {
+.trendingPreview-movieList,.favouriteMovies-scrollContainer {
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
@@ -227,15 +250,15 @@ footer {
     display: flex;
 }
 
-.trendingPreview-movieList::-webkit-scrollbar, .relatedMovies-scrollContainer::-webkit-scrollbar{
+.trendingPreview-movieList::-webkit-scrollbar, .relatedMovies-scrollContainer::-webkit-scrollbar,.favouriteMovies-scrollContainer::-webkit-scrollbar{
     -webkit-appearance: none;
 }
 
-.trendingPreview-movieList::-webkit-scrollbar:horizontal, .relatedMovies-scrollContainer::-webkit-scrollbar:horizontal {
+.trendingPreview-movieList::-webkit-scrollbar:horizontal, .relatedMovies-scrollContainer::-webkit-scrollbar:horizontal,.favouriteMovies-scrollContainer::-webkit-scrollbar:horizontal{
     height: 10px;
 }
 
-.trendingPreview-movieList::-webkit-scrollbar-thumb,.relatedMovies-scrollContainer::-webkit-scrollbar-thumb {
+.trendingPreview-movieList::-webkit-scrollbar-thumb,.relatedMovies-scrollContainer::-webkit-scrollbar-thumb,.favouriteMovies-scrollContainer::-webkit-scrollbar-thumb{
     background-color: #797979;
     border-radius: 20px;
     border: 2px solid #f1f2f3;
@@ -246,7 +269,7 @@ footer {
     margin-right: 8px;
 }
 
-.trendingPreview-movieList .movie-container--loading {
+.trendingPreview-movieList .movie-container--loading,.favouriteMovies-scrollContainer .movie-container--loading {
     background-color: gray;
     border-radius: 20px;
     width: 150px;
@@ -266,7 +289,7 @@ footer {
     animation-delay: .4s;
 }
 
-.trendingPreview-movieList .movie-container .movie-img {
+.trendingPreview-movieList .movie-container .movie-img, .favouriteMovies-scrollContainer .movie-container .movie-img {
     height: 225px;
     width: 150px;
 }
@@ -443,6 +466,14 @@ footer {
     max-height: 215px;
     margin-right: 8px;
     animation: loading-skeleton infinite 1.5s;
+}
+
+.favouriteMovies-title{
+    margin-left: 24px;
+}
+
+.favouriteMovies-scrollContainer{
+    display: flex;
 }
 
 .container-footer{
