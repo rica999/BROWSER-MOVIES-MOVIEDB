@@ -7,4 +7,6 @@ Aplicación que consume una API de películas para mostrar las tendencias, busca
 
 Proyecto del curso llamado <b>Curso de API REST con Javascript: Ejemplos con API's reales</b> de <b>Platzi</b>.
 
+Adicional se agregó funcionalidades de rendimiento y usabilidad como lista de favoritos con el uso de localStorage, loading skeleton, lazy loading de imágenes y scroll infinito gracias al <b>Curso de API REST con Javascript: Performance y Usabilidad</b> de <b>Platzi</b>. 
+
 ![proyecto](https://github.com/rica999/BROWSER-MOVIES-MOVIEDB/assets/68082868/a3887439-6274-4631-ab30-ea6401af2947)
